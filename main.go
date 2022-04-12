@@ -25,10 +25,13 @@ func main()  {
 		P: []Person{{H:1}, {H:2}},
 	}
 
+	var  u1 User
+
 	fmt.Println(u)
 	by, _ := json.Marshal(u)
 	fmt.Println(string(by))
-	ii := []int{1,2,3,4}
-	by, _ = json.Marshal(ii)
-	fmt.Println(string(by))
+
+	_ = json.Unmarshal(by, &u1)
+
+	fmt.Println(u1)
 }
