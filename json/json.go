@@ -95,6 +95,38 @@ func Marshal(v interface{}) ([]byte, error) {
 
 		bf.WriteByte(']')
 		return bf.Bytes(), nil
+	case reflect.Map:
+		if value.IsNil() {
+			return []byte("{}"), nil
+		}
+		bf.WriteByte('{')
+
+		lv := value.MapKeys()
+		for i:= 0;i<len(lv);i++ {
+			v := value.MapIndex(lv[i])
+
+			bf.WriteString("\"")
+			if lv[i].Kind() == reflect.Int {
+				bf.WriteString(strconv.Itoa(lv[i].Interface().(int)))
+			} else {
+				bf.WriteString(lv[i].Interface().(string))
+			}
+			bf.WriteString("\"")
+			bf.WriteString(":")
+
+			if bs, err := Marshal(v.Interface()); err != nil {
+				return nil, err
+			} else {
+				bf.Write(bs)
+			}
+
+			bf.WriteString(",")
+		}
+
+		bf.Truncate(len(bf.Bytes()) - 1)
+
+		bf.WriteByte('}')
+		return bf.Bytes(), nil
 	case reflect.Struct:
 		bf.WriteByte('{')
 		if value.NumField() > 0 {

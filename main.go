@@ -1,6 +1,7 @@
 package main
 
 import (
+	//j "encoding/json"
 	"fmt"
 	"go-json/json"
 )
@@ -13,25 +14,32 @@ type User struct {
 	Name,Address string
 	Age int `json:"gender"`
 	People []int `json:"haha"`
-	P []Person
+	//P []Person
+	M map[string]int
 }
 
 func main()  {
+	m := make(map[string]int, 4)
+	m["ccc"] = 2
+	m["1"] = 1
 	var u User = User{
 		Name:    "ddd",
 		Address: "wdwd",
 		Age:     0,
 		People:  []int{1, 2, 3},
-		P: []Person{{H:1}, {H:2}},
+		//P: []Person{{H:1}, {H:2}},
+		M: m,
 	}
 
-	var  u1 User
+	//by, _ :=j.Marshal(u)
+	//fmt.Println(string(by))
 
-	fmt.Println(u)
 	by, _ := json.Marshal(u)
 	fmt.Println(string(by))
 
-	_ = json.Unmarshal(by, &u1)
-
-	fmt.Println(u1)
+	//var u1 User
+	//
+	//_ = json.Unmarshal(by, &u1)
+	//
+	//fmt.Println(u1)
 }
